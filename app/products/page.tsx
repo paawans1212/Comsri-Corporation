@@ -60,6 +60,25 @@ export default async function ProductsCatalogPage({ searchParams }: CatalogPageP
         </p>
       </div>
 
+      {/* Visual Helper Diagnostic Banner */}
+      <div className="mb-8 p-5 bg-indigo-50 border border-indigo-100/80 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4" id="diagnostic-onboarding-banner">
+        <div className="flex items-start gap-3.5">
+          <span className="text-2xl mt-0.5 shrink-0">🔌</span>
+          <div>
+            <h4 className="text-sm font-extrabold text-slate-950">Integration Testing Panel</h4>
+            <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+              Verify if secure server-side fetching from your WordPress REST API is established. Authenticate keys, measure response latency, and download sample catalogs.
+            </p>
+          </div>
+        </div>
+        <Link 
+          href="/products/test" 
+          className="bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs px-5 py-3 rounded-xl transition active:scale-[0.98] text-center shrink-0"
+        >
+          Check API Connection Status →
+        </Link>
+      </div>
+
       <div className="flex flex-col lg:flex-row gap-8" id="catalog-layout">
         
         {/* Left sidebar categories filtering */}
