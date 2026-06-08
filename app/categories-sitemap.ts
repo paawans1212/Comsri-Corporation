@@ -19,7 +19,7 @@ export async function GET() {
     // Categories
     "/categories/new-laptops",
     "/categories/new-all-in-one",
-    "/categories/refurbished-laptops",
+    "/categories/buy-refurbished-laptops-online-in-india",
     "/categories/refurbished-desktops",
     "/categories/refurbished-workstations",
     "/categories/refurbished-mini-pcs",

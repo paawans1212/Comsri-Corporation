@@ -33,7 +33,7 @@ export function constructMetadata({
   canonical,
   productDetails,
 }: PageMetaInput): Metadata {
-  const safeTitle = title || "Refurbished Laptops & Desktops | Comsri Corporation";
+  const safeTitle = title || "Refurbished Laptops & Desktops";
   const safeDescription = description || "High-performance certified refurbished laptops, desktops, and workstations in India with 1-year warranty.";
   const safeOgImage = ogImage || SITE_CONFIG.ogImage;
 
@@ -53,10 +53,7 @@ export function constructMetadata({
 
   return {
     metadataBase: new URL(SITE_CONFIG.url),
-    title: {
-      default: `${safeTitle} | ${SITE_CONFIG.shortName}`,
-      template: `%s | ${SITE_CONFIG.shortName}`,
-    },
+    title: safeTitle,
     description: formattedDescription,
     keywords: keywords.length > 0 ? keywords : [SITE_CONFIG.name, "refurbished laptops", "refurbished desktops", "India"],
     alternates: {

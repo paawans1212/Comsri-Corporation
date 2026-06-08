@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronDown, Apple, Play, Facebook, Instagram, Youtube, MessageCircle, ShieldCheck, Package } from "lucide-react";
 import Header from "../Header";
 
@@ -82,21 +83,18 @@ const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
 );
 
 const faqs = [
-  { q: "What does Comsri Corporation do?", a: "Comsri Corporation is an Indian technology company that provides new and refurbished laptops, desktops, workstations, and mini PCs for personal, professional, and business use." },
-  { q: "What products does Comsri Corporation offer?", a: "Comsri Corporation offers new and refurbished laptops, desktops, workstations, and mini PCs designed to meet everyday computing and business requirements." },
-  { q: "Are refurbished computers from Comsri Corporation safe to use?", a: "Yes. All refurbished computers from Comsri Corporation are tested, inspected, and quality-checked to ensure reliable performance and safe usage." },
-  { q: "Does Comsri Corporation sell brand-new computers?", a: "Yes. Comsri Corporation sells both brand-new and refurbished computers, allowing customers to choose based on budget and performance needs." },
-  { q: "Who can buy from Comsri Corporation?", a: "Anyone can buy from Comsri Corporation, including students, professionals, startups, small businesses, and corporate organizations across India." },
-  { q: "Does Comsri Corporation provide customer support?", a: "Yes. Comsri Corporation provides 24/7 customer support to assist with product selection, order queries, and post-purchase assistance." },
-  { q: "Does Comsri Corporation deliver across India?", a: "Yes. Comsri Corporation offers fast and free delivery across India with secure packaging to ensure safe arrival of products." },
-  { q: "Why should I choose Comsri Corporation?", a: "Comsri Corporation is chosen for its quality-tested products, transparent pricing, reliable support, and focus on affordable and responsible computing solutions." },
-  { q: "Is buying refurbished computers better for the environment?", a: "Yes. Buying refurbished computers helps reduce electronic waste and supports sustainable and responsible technology use." },
-  { q: "Does Comsri Corporation support bulk or multiple orders?", a: "Yes. Comsri Corporation supports single and multiple-unit orders, making it suitable for individual and organizational requirements." }
+  { q: "What products does Comsri Corporation offer?", a: "We offer a wide range of new and refurbished laptops, desktops, workstations, and mini PCs from leading global brands. All devices are carefully tested and quality-checked before being made available to customers." },
+  { q: "Does Comsri Corporation sell refurbished computers?", a: "Yes. Comsri Corporation specializes in high-quality refurbished laptops, desktops, workstations, and mini PCs that undergo rigorous testing and quality assurance to ensure reliable performance and long-term value." },
+  { q: "Are the products tested before sale?", a: "Yes. Every device undergoes comprehensive testing, quality control, and performance verification to ensure it meets our standards for reliability, functionality, and durability." },
+  { q: "Who can buy from Comsri Corporation?", a: "Our customers include students, professionals, startups, businesses, educational institutions, government organizations, and IT resellers looking for reliable computing solutions." },
+  { q: "Does Comsri Corporation deliver across India?", a: "Yes. We provide nationwide delivery across India, making it easy for customers in different regions to access quality new and refurbished computing devices." },
+  { q: "Why choose Comsri Corporation?", a: "Customers choose Comsri Corporation for quality-tested products, competitive pricing, transparent service, responsive customer support, and a wide selection of new and refurbished computers from trusted brands." },
+  { q: "How can I contact Comsri Corporation?", a: "You can reach our team through the Contact Us page for product inquiries, bulk order requests, support, and general information about our products and services." }
 ];
 
 const FAQItem = ({ faq, isOpen, onToggle }: { faq: typeof faqs[0], isOpen: boolean, onToggle: () => void }) => (
   <div className={`bg-white rounded-[16px] border ${isOpen ? 'border-[#3452ef]/30 shadow-md' : 'border-gray-100 shadow-sm'} overflow-hidden transition-all duration-300`}>
-    <button 
+    <button
       onClick={onToggle}
       className="w-full text-left px-6 lg:px-8 py-5 flex items-center justify-between focus:outline-none group"
     >
@@ -106,9 +104,8 @@ const FAQItem = ({ faq, isOpen, onToggle }: { faq: typeof faqs[0], isOpen: boole
       </span>
     </button>
     <div
-      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-      }`}
+      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
     >
       <div className="overflow-hidden">
         <div className="px-6 lg:px-8 pb-6 pt-0 text-[15.5px] text-gray-600 font-medium leading-relaxed">
@@ -122,8 +119,61 @@ const FAQItem = ({ faq, isOpen, onToggle }: { faq: typeof faqs[0], isOpen: boole
 export default function AboutClient() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Comsri Corporation",
+    "url": "https://comsri.com",
+    "logo": "https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/Comsri-Office-Reception-1.jpeg",
+    "description": "Trusted online store for certified refurbished laptops, desktops, workstations, and mini PCs in India.",
+    "foundingDate": "2020",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Office No.-T-15 Pinnacle Business Park, MC Rd, Shanti Nagar, Andheri East",
+      "addressLocality": "Mumbai",
+      "addressRegion": "Maharashtra",
+      "postalCode": "400093",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-8601-899-899",
+      "contactType": "customer service",
+      "email": "info@comsri.com",
+      "areaServed": "IN",
+      "availableLanguage": "en"
+    },
+    "sameAs": [
+      "https://facebook.com/comsricorporation",
+      "https://instagram.com/comsricorporation",
+      "https://youtube.com/comsricorporation",
+      "https://x.com/comsri_corp"
+    ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-[#f6f5f8] flex flex-col font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Header />
 
       {/* Main Content */}
@@ -141,52 +191,52 @@ export default function AboutClient() {
           <div className="flex flex-col lg:flex-row w-full rounded-[24px] shadow-sm mb-20">
             {/* Left Image */}
             <div className="w-full lg:w-1/2 relative bg-gray-100 min-h-[400px] lg:min-h-[auto] rounded-t-[24px] lg:rounded-tr-none lg:rounded-l-[24px] overflow-hidden">
-              <Image 
-                src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/Comsri-Office-Reception-1.jpeg" 
-                alt="Comsri Corporation Office" 
-                fill 
+              <Image
+                src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/Comsri-Office-Reception-1.jpeg"
+                alt="Comsri Corporation Office"
+                fill
                 referrerPolicy="no-referrer"
-                className="object-cover" 
+                className="object-cover"
               />
             </div>
-            
+
             {/* Right Content */}
             <div className="w-full lg:w-1/2 bg-[#3452ef] p-10 lg:p-14 xl:p-16 flex flex-col gap-5 text-white rounded-b-[24px] lg:rounded-bl-none lg:rounded-r-[24px]">
               <h1 className="text-[28px] md:text-[34px] font-medium tracking-tight mb-2 leading-tight">About Comsri Corporation — Trusted Online Store for Refurbished Computers</h1>
-              
+
               <p className="text-[14px] md:text-[15px] font-medium leading-relaxed text-white/95">
-                Founded in 2020, Comsri Corporation was established with a vision to make reliable, affordable, and high-performance computing accessible across India. Over the years, we have grown into a trusted online store for refurbished computers in India, serving individuals, professionals, startups, educational institutions, resellers, and businesses with dependable IT hardware solutions.
+                Founded in 2020, Comsri Corporation was established with a vision to make reliable, affordable, and high-performance computing accessible across India. Over the years, we have grown into a trusted online store for <Link href="/shop">refurbished computers in India, </Link>serving individuals, professionals, startups, educational institutions, resellers, and businesses with dependable IT hardware solutions.
               </p>
-              
+
               <p className="text-[14px] md:text-[15px] font-medium leading-relaxed text-white/95">
-                Comsri Corporation specializes in new and refurbished laptops, desktops, workstations, and mini PCs sourced from leading global brands. Every device undergoes rigorous testing, quality control, and performance verification to ensure reliability, durability, and long-term value. Our commitment to quality has positioned us as a trusted destination for refurbished laptops and desktops in India, helping customers access business-grade technology at cost-effective prices.
+                Comsri Corporation specializes in new and refurbished laptops, desktops, workstations, and mini PCs sourced from leading global brands like Dell, HP, Lenovo, and Apple. Every device undergoes a rigorous 40-point testing process, comprehensive quality control, and hardware performance verification to ensure reliability, durability, and long-term value. Our commitment to quality has positioned us as a trusted destination for refurbished laptops and desktops in India, helping customers access business-grade technology at cost-effective prices.
               </p>
-              
+
               <p className="text-[14px] md:text-[15px] font-medium leading-relaxed text-white/95">
                 Beyond retail sales, we support bulk orders for organizations, resellers, and enterprises seeking scalable IT procurement solutions. Whether you need refurbished laptops for employees, desktops for educational institutions, workstations for professional workloads, or mini PCs for compact deployments, Comsri Corporation delivers quality-tested systems backed by responsive customer support and transparent service standards.
               </p>
 
               <h3 className="text-[22px] md:text-[24px] font-bold tracking-tight mt-3">Our Mission</h3>
-              
+
               <p className="text-[14px] md:text-[15px] font-medium leading-relaxed text-white/95">
                 At <strong>Comsri Corporation</strong>, our mission is to make reliable and high-performance computing accessible to everyone. We aim to provide quality new and refurbished laptops, desktops, workstations, and mini PCs that meet real-world business, professional, and personal needs—without unnecessary cost or compromise.
               </p>
             </div>
           </div>
 
-        {/* Support Section Split Layout */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-24">
+          {/* Support Section Split Layout */}
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-24">
             {/* Left Image */}
             <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-[500px] rounded-[32px] overflow-hidden shadow-sm">
-              <Image 
-                src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=1200" 
-                alt="Support Agent" 
-                fill 
+              <Image
+                src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/about-us-3-1.webp"
+                alt="Support Agent"
+                fill
                 referrerPolicy="no-referrer"
-                className="object-cover" 
+                className="object-cover"
               />
             </div>
-            
+
             {/* Right Content */}
             <div className="w-full lg:w-1/2 flex flex-col gap-6">
               <div className="w-16 h-16 relative mb-2">
@@ -200,40 +250,42 @@ export default function AboutClient() {
                   </div>
                 </div>
                 <div className="absolute -bottom-1 right-2 text-[#ffb03a] rotate-[30deg]">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" xmlns="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/pt-support-min-1.svg">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                 </div>
               </div>
-              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">High-quality Support 24/7</h2>
+              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">24/7 Customer Support for Refurbished IT Hardware</h2>
               <p className="text-[15.5px] text-gray-600 leading-relaxed font-medium lg:w-[90%]">
                 At <strong>Comsri Corporation</strong>, customer support doesn’t end after a purchase. Our dedicated support team is available <strong>24/7</strong> via chat to assist you with product guidance, order queries, technical support, and post-sales assistance. We believe reliable service is just as important as reliable technology.
               </p>
               <p className="text-[15.5px] text-gray-600 leading-relaxed font-medium lg:w-[90%]">
                 Whether you’re buying a new system or a refurbished device, our experts are always ready to help—ensuring a smooth, transparent, and hassle-free experience at every step.
               </p>
-              
+
               <div className="flex flex-wrap items-center gap-6 mt-4">
                 <div className="flex -space-x-3">
                   <img loading="lazy" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150" alt="Avatar 1" className="w-[46px] h-[46px] rounded-full border-2 border-[#fcf9f4] object-cover" />
                   <img loading="lazy" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150" alt="Avatar 2" className="w-[46px] h-[46px] rounded-full border-2 border-[#fcf9f4] object-cover" />
                   <img loading="lazy" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=150&h=150" alt="Avatar 3" className="w-[46px] h-[46px] rounded-full border-2 border-[#fcf9f4] object-cover" />
                 </div>
-                <button className="bg-[#3452ef] text-white px-7 py-3 rounded-full text-[15px] font-bold hover:bg-[#263ec4] transition-colors shadow-sm">Contact With An Expert</button>
+                <Link href="/contact-us">
+                  <button className="bg-[#3452ef] text-white px-7 py-3 rounded-full text-[15px] font-medium hover:bg-[#263ec4] transition-colors shadow-sm">Contact With An Expert</button>
+                </Link>
               </div>
             </div>
-        </div>
+          </div>
 
-        {/* Fast, Free Delivery Section */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-24">
+          {/* Fast, Free Delivery Section */}
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-24">
             {/* Left Content */}
             <div className="w-full lg:w-1/2 flex flex-col gap-6">
               <div className="w-16 h-16 relative mb-2">
-                 <div className="w-14 h-14 bg-[#faba5b]/20 rounded-[14px] flex items-center justify-center text-[#faba5b]">
-                    <Package size={28} strokeWidth={2} />
-                 </div>
+                <div className="w-14 h-14 bg-[#faba5b]/20 rounded-[14px] flex items-center justify-center text-[#faba5b]">
+                  <Package size={28} strokeWidth={2} />
+                </div>
               </div>
-              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">Fast, Free Delivery</h2>
+              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">Fast & Free Nationwide Delivery Across India</h2>
               <p className="text-[15.5px] text-gray-600 leading-relaxed font-medium lg:w-[95%]">
                 At <strong>Comsri Corporation</strong>, we ensure fast and free delivery across India so you receive your technology without delay or extra cost. Every order is securely packed and shipped through reliable logistics partners to ensure safe and timely doorstep delivery.
               </p>
@@ -241,29 +293,29 @@ export default function AboutClient() {
                 Our streamlined fulfillment process helps customers get their new or refurbished laptops, desktops, workstations, and mini PCs quickly—so you can stay productive without waiting.
               </p>
             </div>
-            
+
             {/* Right Image */}
             <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-[500px] rounded-[32px] overflow-hidden shadow-sm">
-              <Image 
-                src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1200" 
-                alt="Delivery Boxes" 
-                fill 
+              <Image
+                src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/About-us-2-1.jpeg"
+                alt="Delivery Boxes"
+                fill
                 referrerPolicy="no-referrer"
-                className="object-cover" 
+                className="object-cover"
               />
             </div>
-        </div>
+          </div>
 
-        {/* Low Prices, High Quality Section */}
-        <div className="flex flex-col lg:flex-row-reverse gap-12 lg:gap-16 items-center mb-24">
+          {/* Low Prices, High Quality Section */}
+          <div className="flex flex-col lg:flex-row-reverse gap-12 lg:gap-16 items-center mb-24">
             {/* Right Content */}
             <div className="w-full lg:w-1/2 flex flex-col gap-6">
               <div className="w-16 h-16 relative mb-2">
-                 <div className="w-14 h-14 bg-[#3452ef]/10 rounded-[14px] flex items-center justify-center text-[#3452ef]">
-                    <ShieldCheck size={28} strokeWidth={2} />
-                 </div>
+                <div className="w-14 h-14 bg-[#3452ef]/10 rounded-[14px] flex items-center justify-center text-[#3452ef]">
+                  <ShieldCheck size={28} strokeWidth={2} />
+                </div>
               </div>
-              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">Low Prices, High Quality</h2>
+              <h2 className="text-[36px] md:text-[42px] font-bold text-[#111] tracking-tight leading-tight">Certified Quality at Affordable Prices</h2>
               <p className="text-[15.5px] text-gray-600 leading-relaxed font-medium lg:w-[95%]">
                 At <strong>Comsri Corporation</strong>, we believe affordability should never come at the cost of quality. Our new and refurbished laptops, desktops, workstations, and mini PCs are carefully sourced, thoroughly tested, and competitively priced to deliver exceptional value.
               </p>
@@ -271,42 +323,42 @@ export default function AboutClient() {
                 By maintaining transparent pricing and strict quality standards, we help customers access dependable technology that performs reliably—without overpaying.
               </p>
             </div>
-            
+
             {/* Left Image */}
             <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-[500px] rounded-[32px] overflow-hidden shadow-sm">
-              <Image 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200" 
-                alt="Quality Assurance" 
-                fill 
+              <Image
+                src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/About-us-1%20(1).jpeg"
+                alt="Quality Assurance"
+                fill
                 referrerPolicy="no-referrer"
-                className="object-cover" 
+                className="object-cover"
               />
             </div>
-        </div>
+          </div>
 
-        {/* Customer Reviews */}
-        <div className="mb-24 w-full relative">
-          <h2 className="text-[28px] font-bold text-[#111] tracking-tight text-center mb-12">Reviews of Our Customers</h2>
-          
-          <div className="overflow-hidden w-full relative pb-4">
-            {/* Left & Right gradient fades */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/12 md:w-1/6 bg-gradient-to-r from-[#f6f5f8] to-transparent z-10"></div>
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/12 md:w-1/6 bg-gradient-to-l from-[#f6f5f8] to-transparent z-10"></div>
+          {/* Customer Reviews */}
+          <div className="mb-24 w-full relative">
+            <h2 className="text-[28px] font-bold text-[#111] tracking-tight text-center mb-12">Reviews of Our Customers</h2>
 
-            {/* Row 1 (Moves Left) */}
-            <div className="flex w-max animate-marquee gap-6 mb-6">
-              {[...reviews, ...reviews, ...reviews, ...reviews].map((r, i) => (
-                <ReviewCard key={`r1-${i}`} review={r} />
-              ))}
-            </div>
-            {/* Row 2 (Moves Right) */}
-            <div className="flex w-max animate-marquee-reverse gap-6">
-              {[...reviews.slice().reverse(), ...reviews.slice().reverse(), ...reviews.slice().reverse(), ...reviews.slice().reverse()].map((r, i) => (
-                <ReviewCard key={`r2-${i}`} review={r} />
-              ))}
+            <div className="overflow-hidden w-full relative pb-4">
+              {/* Left & Right gradient fades */}
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-1/12 md:w-1/6 bg-gradient-to-r from-[#f6f5f8] to-transparent z-10"></div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-1/12 md:w-1/6 bg-gradient-to-l from-[#f6f5f8] to-transparent z-10"></div>
+
+              {/* Row 1 (Moves Left) */}
+              <div className="flex w-max animate-marquee gap-6 mb-6">
+                {[...reviews, ...reviews, ...reviews, ...reviews].map((r, i) => (
+                  <ReviewCard key={`r1-${i}`} review={r} />
+                ))}
+              </div>
+              {/* Row 2 (Moves Right) */}
+              <div className="flex w-max animate-marquee-reverse gap-6">
+                {[...reviews.slice().reverse(), ...reviews.slice().reverse(), ...reviews.slice().reverse(), ...reviews.slice().reverse()].map((r, i) => (
+                  <ReviewCard key={`r2-${i}`} review={r} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         </div>
 
         {/* FAQs */}
@@ -318,11 +370,11 @@ export default function AboutClient() {
             </div>
             <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto px-4 md:px-0">
               {faqs.map((faq, index) => (
-                <FAQItem 
-                  key={index} 
-                  faq={faq} 
-                  isOpen={openFaqIndex === index} 
-                  onToggle={() => setOpenFaqIndex(openFaqIndex === index ? null : index)} 
+                <FAQItem
+                  key={index}
+                  faq={faq}
+                  isOpen={openFaqIndex === index}
+                  onToggle={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
                 />
               ))}
             </div>
@@ -350,8 +402,14 @@ export default function AboutClient() {
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Refurbished Products</h3>
               <div className="flex flex-col gap-3">
-                {["Refurbished Desktops", "Refurbished Laptops", "Refurbished Workstations", "Refurbished Macbooks", "Refurbished Mini PCs"].map((item, i) => (
-                  <a key={i} href="#" className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item}</a>
+                {[
+                  { label: "Refurbished Desktops", path: "/shop?category=129" },
+                  { label: "Refurbished Laptops", path: "/shop?category=112" },
+                  { label: "Refurbished Workstations", path: "/shop?category=139" },
+                  { label: "Refurbished Macbooks", path: "/shop?category=112&search=Apple" },
+                  { label: "Refurbished Mini PCs", path: "/shop?category=137" }
+                ].map((item, i) => (
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -360,8 +418,14 @@ export default function AboutClient() {
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">New Products</h3>
               <div className="flex flex-col gap-3">
-                {["New Laptops", "New Desktops", "New Macbooks", "New All in One", "New Mini PCs"].map((item, i) => (
-                  <a key={i} href="#" className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item}</a>
+                {[
+                  { label: "New Laptops", path: "/shop?category=112&search=New" },
+                  { label: "New Desktops", path: "/shop?category=129&search=New" },
+                  { label: "New Macbooks", path: "/shop?category=112&search=Apple" },
+                  { label: "New All in One", path: "/shop?category=129&search=All%20in%20One" },
+                  { label: "New Mini PCs", path: "/shop?category=137&search=New" }
+                ].map((item, i) => (
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -371,14 +435,14 @@ export default function AboutClient() {
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Useful Links</h3>
               <div className="flex flex-col gap-3">
                 {[
-                  { label: "Contact Us", path: "/about" },
+                  { label: "Contact Us", path: "/contact-us" },
                   { label: "Terms & Conditions", path: "/terms-conditions?tab=terms" },
                   { label: "Privacy Policy", path: "/privacy-policy?tab=privacy" },
                   { label: "Return & Refund Policy", path: "/return-refund?tab=refund" },
                   { label: "Warranty Policy", path: "/privacy-policy?tab=warranty" },
                   { label: "Shipping Policy", path: "/privacy-policy?tab=shipping" }
                 ].map((item, i) => (
-                  <a key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</a>
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -429,9 +493,9 @@ export default function AboutClient() {
               <p className="text-[14px] text-white/90 font-medium">Be the First to Know. Sign up to newsletter today</p>
             </div>
             <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-4 items-center">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
+              <input
+                type="email"
+                placeholder="Your email address"
                 className="px-6 py-3.5 rounded-full text-[14px] focus:outline-none font-medium h-[48px] text-black w-full min-w-[280px] md:w-[340px]"
               />
               <button className="bg-[#fcb643] hover:bg-[#fca61f] text-[#111] px-8 h-[48px] rounded-full font-bold text-[15px] transition-colors whitespace-nowrap shadow-sm">

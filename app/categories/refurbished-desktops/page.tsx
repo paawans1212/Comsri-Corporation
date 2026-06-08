@@ -1,43 +1,25 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
-  Search,
-  ChevronDown,
-  Shuffle,
-  Heart,
-  ShoppingCart,
-  ChevronLeft,
-  ChevronRight,
-  ShieldCheck,
-  Filter,
-  Tag,
-  Percent,
-  Check,
-  Sparkles,
-  ArrowRight,
-  Monitor,
-  Laptop,
-  Cpu,
-  PackageCheck,
-  Instagram,
-  Facebook,
-  Youtube,
+  MessageCircle,
   Play,
   Apple,
-  MessageCircle
+  Facebook,
+  Instagram,
+  Youtube
 } from "lucide-react";
 import { Metadata } from "next";
 import { woocommerce } from "@/lib/services/woocommerce";
 import { getFilteredCatalog } from "@/lib/services/catalog";
-import Header from "../Header";
-import ShopCatalogClient from "./ShopCatalogClient";
-import { constructMetadata, getCategoryMetadata } from "../seo/metadata";
+import Header from "../../Header";
+import ShopCatalogClient from "../../shop/ShopCatalogClient";
+import { constructMetadata, getCategoryMetadata } from "../../seo/metadata";
 
 export const dynamic = "force-dynamic";
 
-interface ShopPageProps {
+const CATEGORY_ID = "129"; // Refurbished Desktops Category ID
+
+interface CategoryPageProps {
   searchParams: Promise<{
-    category?: string;
     search?: string;
     page?: string;
     min_price?: string;
@@ -47,78 +29,37 @@ interface ShopPageProps {
   }>;
 }
 
-export async function generateMetadata({ searchParams }: ShopPageProps): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: CategoryPageProps): Promise<Metadata> {
   const resolvedParams = await searchParams;
-  const currentCategory = resolvedParams.category || "";
   const hasSortingOrFilters = resolvedParams.orderby || resolvedParams.min_price || resolvedParams.max_price || resolvedParams.on_sale || resolvedParams.search || resolvedParams.page;
   const noIndex = !!hasSortingOrFilters;
 
-  if (currentCategory) {
-    try {
-      const categoriesData = await woocommerce.getCategories();
-      const activeCategory = (categoriesData || []).find((c: any) => c.id.toString() === currentCategory);
-      if (activeCategory) {
-        const baseMeta = getCategoryMetadata({
-          name: activeCategory.name,
-          description: activeCategory.description,
-          slug: activeCategory.slug,
-        });
-        return {
-          ...baseMeta,
-          alternates: {
-            canonical: `https://comsri.com/shop?category=${currentCategory}`,
-            languages: {
-              "en-IN": `https://comsri.com/shop?category=${currentCategory}`,
-              "x-default": `https://comsri.com/shop?category=${currentCategory}`,
-            },
-          },
-          robots: {
-            index: !noIndex,
-            follow: true,
-          },
-        };
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   return constructMetadata({
-    title: "Buy Refurbished Laptops & Desktops Online in India",
-    description: "Browse our commercial catalog of premium refurbished and new corporate IT hardware in India. 40+ point quality checklist with 1-year replacement warranty.",
-    path: "/shop",
-    canonical: "/shop",
-    keywords: ["refurbished store", "buy refurbished laptop india", "refurbished desktop catalog", "Comsri shop"],
+    title: "Refurbished Desktops & PCs Online in India | Best Deals",
+    description: "Explore high-performance business-grade certified refurbished desktops, towers, and all-in-one PCs with 1-year replacement warranty and free delivery across India.",
+    path: "/categories/refurbished-desktops",
+    canonical: "/categories/refurbished-desktops",
+    keywords: [
+      "refurbished desktops",
+      "second hand computers",
+      "buy refurbished PC",
+      "renewed desktops india",
+      "commercial desktops with warranty",
+      "Comsri desktops"
+    ],
     noIndex,
   });
 }
 
-export default async function ShopPage({ searchParams }: ShopPageProps) {
+export default async function RefurbishedDesktopsPage({ searchParams }: CategoryPageProps) {
   const resolvedParams = await searchParams;
-  const currentCategory = resolvedParams.category || "";
   const currentQuery = resolvedParams.search || "";
   const currentPage = parseInt(resolvedParams.page || "1", 10);
   const currentMinPrice = resolvedParams.min_price || "";
   const currentMaxPrice = resolvedParams.max_price || "";
   const currentOnSaleOnly = resolvedParams.on_sale === "true";
-  const currentSorting = resolvedParams.orderby || "date"; // Default sorted by date latest
+  const currentSorting = resolvedParams.orderby || "date";
 
-  // Build WooCommerce query filter matching current URL search params
-  let order: "asc" | "desc" = "desc";
-  let orderby: "date" | "id" | "include" | "title" | "slug" | "price" | "popularity" | "rating" = "date";
-
-  if (currentSorting === "price") {
-    orderby = "price";
-    order = "asc";
-  } else if (currentSorting === "price-desc") {
-    orderby = "price";
-    order = "desc";
-  } else if (currentSorting === "title") {
-    orderby = "title";
-    order = "asc";
-  }
-
-  // Retrieve products and categories on the server side concurrently
   let productsResult = { data: [] as any[], totalItems: 0, totalPages: 1, counts: null as any };
   let categories: any[] = [];
   let fetchError = "";
@@ -126,7 +67,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   try {
     const [catalogResult, categoriesData] = await Promise.all([
       getFilteredCatalog({
-        category: currentCategory,
+        category: CATEGORY_ID,
         search: currentQuery,
         page: currentPage,
         per_page: 12,
@@ -145,97 +86,129 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         cat.name.toLowerCase() !== "refurbished products"
     );
   } catch (err: any) {
-    console.error("[Shop Server Loading Error]:", err);
+    console.error("[Desktops Category Server Loading Error]:", err);
     fetchError = err.message || "Could not synchronize with the WordPress catalog database.";
   }
 
-  const activeCategoryObject = categories.find((c) => c.id.toString() === currentCategory);
+  const activeCategoryObject = categories.find((c) => c.id.toString() === CATEGORY_ID);
 
-  // Helper to compile updated searchParams URL for filters & navigation
-  const getFilterUrl = (overrides: Record<string, string | null>) => {
-    const params = new URLSearchParams();
-
-    // Maintain existing parameters
-    if (currentCategory) params.set("category", currentCategory);
-    if (currentQuery) params.set("search", currentQuery);
-    if (currentPage > 1) params.set("page", currentPage.toString());
-    if (currentMinPrice) params.set("min_price", currentMinPrice);
-    if (currentMaxPrice) params.set("max_price", currentMaxPrice);
-    if (currentOnSaleOnly) params.set("on_sale", "true");
-    if (currentSorting && currentSorting !== "date") params.set("orderby", currentSorting);
-
-    // Apply overrides
-    Object.entries(overrides).forEach(([key, value]) => {
-      if (value === null) {
-        params.delete(key);
-      } else {
-        params.set(key, value);
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://comsri.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Categories",
+        "item": "https://comsri.com/shop"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Refurbished Desktops",
+        "item": "https://comsri.com/categories/refurbished-desktops"
       }
-    });
-
-    // Always reset page to 1 when filters (except page override) change
-    if (!overrides.hasOwnProperty("page")) {
-      params.delete("page");
-    }
-
-    const queryStr = params.toString();
-    return `/shop${queryStr ? `?${queryStr}` : ""}`;
+    ]
   };
 
-  // Pre-configured price range configurations
-  const priceRanges = [
-    { label: "Under ₹15,000", min: "", max: "15000" },
-    { label: "₹15,000 - ₹25,000", min: "15000", max: "25000" },
-    { label: "Above ₹25,000", min: "25000", max: "" },
-  ];
+  const productSchemaList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Refurbished Desktops Catalog",
+    "description": "Certified refurbished commercial desktops and personal computers in India.",
+    "numberOfItems": productsResult.data?.length || 0,
+    "itemListElement": (productsResult.data || []).map((prod: any, idx: number) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "url": `https://comsri.com/products/${prod.slug}`,
+      "name": prod.name,
+      "image": prod.images?.[0]?.src || "https://comsri.com/og-image.jpg"
+    }))
+  };
 
-  // Check if any filter is actively selected
-  const hasActiveFilters =
-    !!currentCategory ||
-    !!currentQuery ||
-    !!currentMinPrice ||
-    !!currentMaxPrice ||
-    currentOnSaleOnly ||
-    currentSorting !== "date";
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the warranty period on refurbished desktops?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every refurbished desktop computer from Comsri comes with a 1-year replacement warranty covering hardware defects."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do desktops include monitor, keyboard, and mouse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The standard catalog lists CPU towers alone unless specified as an 'All-in-One' or bundle. You can purchase monitors and accessories separately."
+        }
+      }
+    ]
+  };
 
   return (
     <div className="min-h-screen bg-[#F6F5F8] flex flex-col font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchemaList) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Header />
 
       {/* -------------------- SHOP HERO BLOCK -------------------- */}
       <section className="bg-slate-900 text-white py-12 px-6 lg:px-12 relative overflow-hidden" id="shop-hero">
-        {/* Abstract background vector accents */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#faba5b]/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-[1600px] mx-auto relative z-10">
           <div className="max-w-2xl">
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#faba5b] bg-[#faba5b]/10 px-3.5 py-1.5 rounded-full border border-[#faba5b]/20 inline-block mb-4">
-              Premium IT Sourcing & Slashes
+              Premium Desk Hardware
             </span>
             <h1 className="text-3xl md:text-5xl font-medium tracking-tight leading-none mb-3">
-              {activeCategoryObject ? activeCategoryObject.name : "Premium Refurbished Computer Store"}
+              {activeCategoryObject ? activeCategoryObject.name : "Refurbished Desktops"}
             </h1>
             <p className="text-sm md:text-base text-slate-300 leading-relaxed max-w-xl">
               {activeCategoryObject?.description
                 ? activeCategoryObject.description
-                : "Explore our commercial catalog of top-tier refurbished and new corporate hardware options in India. Subjected to extensive multithreaded diagnostics with 1-year coverage warranty."
+                : "Explore our collection of commercial-grade certified refurbished desktops. Subjected to extensive multithreaded diagnostics with 1-year coverage warranty."
               }
             </p>
 
-            {/* Category Quick Links for SEO Crawlability */}
+            {/* Category Quick Links */}
+            {/* Category Quick Links */}
             <div className="mt-6 flex flex-wrap gap-2.5">
               <span className="text-xs text-slate-400 font-medium self-center mr-1">Popular Categories:</span>
               {[
-                { label: "Refurbished Laptops", path: "/shop?category=112" },
-                { label: "Refurbished Desktops", path: "/shop?category=129" },
-                { label: "Workstations", path: "/shop?category=139" },
-                { label: "Mini PCs", path: "/shop?category=137" }
+                { label: "Refurbished Laptops", path: "/categories/buy-refurbished-laptops-online-in-india" },
+                { label: "Refurbished Desktops", path: "/categories/refurbished-desktops" },
+                { label: "Workstations", path: "/categories/refurbished-workstations" },
+                { label: "Mini PCs", path: "/categories/refurbished-mini-pcs" }
               ].map((cat) => (
                 <Link
                   key={cat.path}
                   href={cat.path}
-                  className="text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-750 hover:border-slate-500 hover:text-white px-3.5 py-1.5 rounded-full transition-all"
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all ${
+                    cat.path === "/categories/refurbished-desktops"
+                      ? "text-white bg-blue-600 border border-blue-600"
+                      : "text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-750 hover:border-slate-500 hover:text-white"
+                  }`}
                 >
                   {cat.label}
                 </Link>
@@ -247,19 +220,14 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
       {/* -------------------- CORE SHOP SECTION -------------------- */}
       <main className="flex-1 max-w-[1600px] mx-auto px-6 lg:px-12 py-10 w-full">
-
-        {/* Catalog Main Frame */}
         {fetchError ? (
           <div className="bg-rose-50 border border-rose-100 text-rose-800 p-8 rounded-3xl text-center shadow-sm">
             <p className="text-3xl">⚠️</p>
             <h3 className="text-lg font-black text-rose-950 mt-2">Active WordPress Handshake offline</h3>
             <p className="text-xs text-rose-600 max-w-lg mx-auto mt-2 leading-relaxed">
-              WooCommerce service is unconfigured or WordPress rejected the credentials: <code className="bg-rose-100/60 px-1 py-0.5 rounded text-rose-900">{fetchError}</code>
+              WooCommerce service is offline: <code className="bg-rose-100/60 px-1 py-0.5 rounded text-rose-900">{fetchError}</code>
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href="/products/test" className="bg-rose-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-rose-800 transition">
-                Run Keys Diagnostic Checker
-              </Link>
               <Link href="/shop" className="bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-slate-800 transition">
                 Retry Connection
               </Link>
@@ -273,7 +241,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             initialCounts={productsResult.counts}
             categories={categories}
             initialParams={{
-              category: currentCategory,
+              category: CATEGORY_ID,
               search: currentQuery,
               page: currentPage,
               min_price: currentMinPrice,
@@ -288,10 +256,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       {/* Footer Section */}
       <footer className="bg-[#fcb643] pt-16 pb-12 w-full relative">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 flex flex-col gap-12">
-
-          {/* Top Columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 justify-between">
-            {/* Address */}
             <div className="flex flex-col pr-4">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Address</h3>
               <p className="text-[14px] font-semibold text-[#2d2d2d] leading-relaxed mb-6">
@@ -302,23 +267,21 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               <p className="text-[14px] font-semibold text-[#2d2d2d]">Email: info@comsri.com</p>
             </div>
 
-            {/* Refurbished Products */}
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Refurbished Products</h3>
               <div className="flex flex-col gap-3">
                 {[
-                  { label: "Refurbished Desktops", path: "/shop?category=129" },
-                  { label: "Refurbished Laptops", path: "/shop?category=112" },
-                  { label: "Refurbished Workstations", path: "/shop?category=139" },
-                  { label: "Refurbished Macbooks", path: "/shop?category=112" },
-                  { label: "Refurbished Mini PCs", path: "/shop?category=137" }
+                  { label: "Refurbished Desktops", path: "/categories/refurbished-desktops" },
+                  { label: "Refurbished Laptops", path: "/categories/buy-refurbished-laptops-online-in-india" },
+                  { label: "Refurbished Workstations", path: "/categories/refurbished-workstations" },
+                  { label: "Refurbished Macbooks", path: "/categories/buy-refurbished-laptops-online-in-india" },
+                  { label: "Refurbished Mini PCs", path: "/categories/refurbished-mini-pcs" }
                 ].map((item, i) => (
                   <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
 
-            {/* New Products */}
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">New Products</h3>
               <div className="flex flex-col gap-3">
@@ -334,7 +297,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               </div>
             </div>
 
-            {/* Useful Links */}
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Useful Links</h3>
               <div className="flex flex-col gap-3">
@@ -351,7 +313,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               </div>
             </div>
 
-            {/* Available On & Social Links */}
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Avalible On:</h3>
               <div className="flex flex-wrap xl:flex-nowrap gap-3 mb-8">
@@ -390,7 +351,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             </div>
           </div>
 
-          {/* Newsletter Banner */}
           <div className="bg-[#3452ef] rounded-[24px] px-8 md:px-12 py-10 flex flex-col lg:flex-row items-center justify-between gap-8 mt-2 w-full">
             <div className="flex flex-col text-white flex-1 text-center lg:text-left">
               <h2 className="text-[28px] md:text-[32px] font-bold mb-1.5 tracking-tight">Sign Up to us Newsletter</h2>
@@ -408,7 +368,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             </div>
           </div>
 
-          {/* Copyright & Payments */}
           <div className="flex flex-col md:flex-row items-center justify-between mt-1 gap-4 w-full">
             <p className="text-[14px] font-bold text-[#111]">Copyright 2026 by Comsri Corporation All Right Reserved.</p>
             <div className="flex gap-1.5">
@@ -438,15 +397,12 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               </div>
             </div>
           </div>
-
         </div>
 
-        {/* Floating Chat Icon placeholder */}
         <div className="absolute right-6 bottom-6 w-14 h-14 bg-[#3452ef] rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform z-50">
           <MessageCircle size={28} className="text-white fill-white" />
         </div>
       </footer>
-
     </div>
   );
 }

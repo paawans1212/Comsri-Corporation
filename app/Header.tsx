@@ -330,18 +330,18 @@ export default function Header() {
   // Hardware specs and network quality check on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     // Check system memory (RAM) and CPU cores
     const ram = (navigator as any).deviceMemory;
     const cores = navigator.hardwareConcurrency;
-    
+
     const isLowRam = ram !== undefined && ram <= 4;
     const isLowCores = cores !== undefined && cores <= 4;
-    
+
     // Check network speed and data saving mode
     const conn = (navigator as any).connection;
     const isSlowConn = conn && (conn.saveData || /2g|3g/.test(conn.effectiveType));
-    
+
     if (isLowRam || isLowCores || isSlowConn) {
       setTimeout(() => {
         setIsLowEnd(true);
@@ -357,15 +357,15 @@ export default function Header() {
 
   const handleMouseEnter = () => {
     if (isLowEnd || isTrackingRef.current) return;
-    
+
     isTrackingRef.current = true;
     frameTimesRef.current = [];
-    
+
     // Pure setup: initialize timing variables to null. They will be populated
     // by the browser's high-res timestamp passed to requestAnimationFrame.
     let lastTime: number | null = null;
     let startTime: number | null = null;
-    
+
     const trackFrames = (now: number) => {
       if (startTime === null) startTime = now;
       if (lastTime === null) {
@@ -373,12 +373,12 @@ export default function Header() {
         animationFrameIdRef.current = requestAnimationFrame(trackFrames);
         return;
       }
-      
+
       const delta = now - lastTime;
       lastTime = now;
-      
+
       frameTimesRef.current.push(delta);
-      
+
       // Track frames for 400ms (covers the 300ms hover transition plus buffer)
       if (now - startTime < 400) {
         animationFrameIdRef.current = requestAnimationFrame(trackFrames);
@@ -386,7 +386,7 @@ export default function Header() {
         analyzePerformance();
       }
     };
-    
+
     animationFrameIdRef.current = requestAnimationFrame(trackFrames);
   };
 
@@ -401,12 +401,12 @@ export default function Header() {
   const analyzePerformance = () => {
     const times = frameTimesRef.current;
     if (times.length < 5) return;
-    
+
     // Check if any frames lagged significantly (>24ms budget, i.e. < 40fps)
     // or if the average frame duration is above 18ms (i.e. < 55fps average)
     const laggyFrames = times.filter(t => t > 24).length;
     const avgTime = times.reduce((sum, val) => sum + val, 0) / times.length;
-    
+
     if (laggyFrames > 1 || avgTime > 18) {
       console.warn(`[MegaMenu] Performance stutter detected (Avg frame: ${avgTime.toFixed(1)}ms, Laggy frames: ${laggyFrames}). Enabling dynamic 60 FPS fallback styling.`);
       setTimeout(() => {
@@ -581,7 +581,7 @@ export default function Header() {
                 About Us
               </Link>
             </li>
-            <li 
+            <li
               className="group flex items-center gap-1 cursor-pointer hover:text-[#374bf9] transition-all py-2"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -603,7 +603,7 @@ export default function Header() {
                         <div className="p-1.5 rounded-lg bg-blue-50 text-[#374bf9]">
                           <Laptop size={16} />
                         </div>
-                        <Link href="/shop?category=112" prefetch={false} className="text-gray-900 font-bold text-[15px] hover:text-[#374bf9] transition-colors">
+                        <Link href="/categories/buy-refurbished-laptops-online-in-india" prefetch={false} className="text-gray-900 font-bold text-[15px] hover:text-[#374bf9] transition-colors">
                           Refurbished Laptops
                         </Link>
                       </div>
@@ -1120,7 +1120,7 @@ export default function Header() {
             )}
           </Link>
 
-           {/* Cart Tab */}
+          {/* Cart Tab */}
           <Link
             href="/cart"
             className={`flex items-center gap-2 rounded-full transition-all duration-300 ${pathname === "/cart"

@@ -162,8 +162,91 @@ export default function ShopCatalogClient({
   const activeCategoryObject = categories.find((c) => c.id.toString() === category);
   const hasActiveFilters = !!category || !!search || !!minPrice || !!maxPrice || onSale || orderby !== "date";
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://comsri.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shop",
+        "item": "https://comsri.com/shop"
+      }
+    ]
+  };
+
+  const storeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Comsri Corporation",
+    "url": "https://comsri.com",
+    "logo": "https://comsri.com/logo.png",
+    "image": "https://comsri.com/og-image.jpg",
+    "description": "Premium corporate-grade refurbished laptops, desktops, and mini PCs in India.",
+    "telephone": "+91 8601-899-899",
+    "priceRange": "₹₹",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Office No.-T-15 Pinnacle Business Park MC Rd Shanti Nagar Andheri East",
+      "addressLocality": "Mumbai",
+      "addressRegion": "Maharashtra",
+      "postalCode": "400093",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "19.1154",
+      "longitude": "72.8687"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:30",
+      "closes": "18:30"
+    }
+  };
+
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "numberOfItems": products?.length || 0,
+    "itemListElement": (products || []).map((prod, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "url": `https://comsri.com/products/${prod.slug}`,
+      "name": prod.name,
+      "image": prod.images?.[0]?.src || "https://comsri.com/og-image.jpg"
+    }))
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+
 
       {/* ==================== LEFT FILTER SIDEBAR ==================== */}
       <aside className="hidden lg:flex lg:col-span-1 space-y-6 flex-col h-fit" id="shop-sidebar">

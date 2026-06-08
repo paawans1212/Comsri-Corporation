@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Apple, Play, Facebook, Instagram, Youtube, MessageCircle, RefreshCw, Target, Briefcase, Clock, HeartPulse, IndianRupee, ClipboardCheck, Rocket, Shield, ChartColumn, Leaf, Phone, MapPin, Mail, Send, ChevronDown, ArrowRight, Trash2 } from "lucide-react";
 import Header from "../Header";
 
@@ -17,8 +18,106 @@ const faqs = [
 export default function BulkOrdersClient() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Bulk IT Hardware Procurement",
+    "alternateName": "Bulk Laptops & Desktops Supply India",
+    "description": "Comsri Corporation provides bulk procurement of quality-tested refurbished and new laptops, desktops, workstations, and mini PCs for enterprises, educational institutions, and government organizations across India. Includes 72+ point QC checks, 1-year warranty, flexible payment, and pan-India delivery.",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Comsri Corporation",
+      "url": "https://comsri.com",
+      "telephone": "+91-8601-899-899",
+      "email": "info@comsri.com",
+      "foundingDate": "2020",
+      "priceRange": "₹₹",
+      "currenciesAccepted": "INR",
+      "paymentAccepted": "Cash, Credit Card, Net Banking, UPI",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Office No.-T-15 Pinnacle Business Park, MC Rd, Shanti Nagar, Andheri East",
+        "addressLocality": "Mumbai",
+        "addressRegion": "Maharashtra",
+        "postalCode": "400093",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.1196",
+        "longitude": "72.8638"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "sameAs": [
+        "https://facebook.com/comsricorporation",
+        "https://instagram.com/comsricorporation",
+        "https://youtube.com/comsricorporation",
+        "https://x.com/comsri_corp"
+      ]
+    },
+    "serviceType": "Bulk IT Hardware Supply",
+    "areaServed": "India",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Bulk IT Hardware Catalog",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Bulk Refurbished Laptops India" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Bulk Refurbished Desktops India" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Bulk Mini PCs India" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Refurbished Workstations India" } }
+      ]
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://comsri.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Bulk Orders",
+        "item": "https://comsri.com/bulk-orders"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-[#f6f5f8] flex flex-col font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Header />
 
       <main className="flex-1 w-full bg-[#f6f5f8]">
@@ -53,7 +152,7 @@ export default function BulkOrdersClient() {
               </h1>
 
               <p className="text-[15px] sm:text-[16px] md:text-[18px] text-white/95 leading-relaxed font-normal mb-5 mt-2 max-w-xl shadow-none">
-                Buy enterprise-grade refurbished laptops, bulk laptops, desktops, mini PCs, and IT equipment in India for businesses and enterprises. Starting from ₹15,000 with bulk pricing, flexible payment options, and fast nationwide delivery.
+                Buy enterprise-grade <Link href="/shop?category=112" className="underline hover:text-[#faba5b] transition-colors">refurbished laptops</Link>, bulk laptops, <Link href="/shop?category=129" className="underline hover:text-[#faba5b] transition-colors">desktops</Link>, <Link href="/shop?category=137" className="underline hover:text-[#faba5b] transition-colors">mini PCs</Link>, and IT equipment in India for businesses and enterprises. Starting from ₹15,000 with bulk pricing, flexible payment options, and fast nationwide delivery.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto">
@@ -180,7 +279,7 @@ export default function BulkOrdersClient() {
                 What <span className="text-[#0d7fba] font-bold">Comsri</span> Does : <span className="text-[#0d7fba]">Bulk Laptops, Desktops & Mini PCs Solutions for Businesses in India</span>
               </h2>
               <p className="text-[17px] text-[#555] leading-relaxed max-w-3xl font-medium">
-                Comsri delivers a closed-loop IT asset lifecycle programme from bulk laptop procurement and refurbished desktops to deployment and certified disposal designed for compliance intensive businesses across India.
+                Comsri delivers a closed-loop IT asset lifecycle programme from bulk laptop procurement and <Link href="/shop?category=129" className="text-[#0d7fba] hover:underline">refurbished desktops</Link> to deployment and certified disposal designed for compliance intensive businesses across India.
               </p>
             </div>
 
@@ -569,8 +668,14 @@ export default function BulkOrdersClient() {
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Refurbished Products</h3>
               <div className="flex flex-col gap-3">
-                {["Refurbished Desktops", "Refurbished Laptops", "Refurbished Workstations", "Refurbished Macbooks", "Refurbished Mini PCs"].map((item, i) => (
-                  <a key={i} href="#" className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item}</a>
+                {[
+                  { label: "Refurbished Desktops", path: "/shop?category=129" },
+                  { label: "Refurbished Laptops", path: "/shop?category=112" },
+                  { label: "Refurbished Workstations", path: "/shop?category=139" },
+                  { label: "Refurbished Macbooks", path: "/shop?category=112&search=Apple" },
+                  { label: "Refurbished Mini PCs", path: "/shop?category=137" }
+                ].map((item, i) => (
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -579,8 +684,14 @@ export default function BulkOrdersClient() {
             <div className="flex flex-col">
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">New Products</h3>
               <div className="flex flex-col gap-3">
-                {["New Laptops", "New Desktops", "New Macbooks", "New All in One", "New Mini PCs"].map((item, i) => (
-                  <a key={i} href="#" className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item}</a>
+                {[
+                  { label: "New Laptops", path: "/shop?category=112&search=New" },
+                  { label: "New Desktops", path: "/shop?category=129&search=New" },
+                  { label: "New Macbooks", path: "/shop?category=112&search=Apple" },
+                  { label: "New All in One", path: "/shop?category=129&search=All%20in%20One" },
+                  { label: "New Mini PCs", path: "/shop?category=137&search=New" }
+                ].map((item, i) => (
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -590,14 +701,14 @@ export default function BulkOrdersClient() {
               <h3 className="text-[18px] font-semibold text-[#3452ef] mb-3">Useful Links</h3>
               <div className="flex flex-col gap-3">
                 {[
-                  { label: "Contact Us", path: "/about" },
+                  { label: "Contact Us", path: "/contact-us" },
                   { label: "Terms & Conditions", path: "/terms-conditions?tab=terms" },
                   { label: "Privacy Policy", path: "/privacy-policy?tab=privacy" },
                   { label: "Return & Refund Policy", path: "/return-refund?tab=refund" },
                   { label: "Warranty Policy", path: "/privacy-policy?tab=warranty" },
                   { label: "Shipping Policy", path: "/privacy-policy?tab=shipping" }
                 ].map((item, i) => (
-                  <a key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</a>
+                  <Link key={i} href={item.path} className="text-[14px] font-semibold text-[#2d2d2d] hover:text-[#3452ef] transition-colors">{item.label}</Link>
                 ))}
               </div>
             </div>
