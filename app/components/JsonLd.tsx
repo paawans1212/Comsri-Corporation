@@ -9,6 +9,7 @@ export default function JsonLd({ schema }: JsonLdProps) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 }
