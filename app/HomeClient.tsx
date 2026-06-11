@@ -273,7 +273,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
           {/* Bottom Row: 3 items */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 h-auto md:h-[450px]">
             {/* Refurbished Desktops */}
-            <Link href="/categories/buy-high-quality-refurbished-desktops" className="bg-[#529b71] rounded-[16px] md:rounded-[24px] overflow-hidden group cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 flex flex-col min-h-[280px] md:min-h-0">
+            <Link href="/categories/buy-high-quality-refurbished-desktops" className="bg-[#143f29] rounded-[16px] md:rounded-[24px] overflow-hidden group cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 flex flex-col min-h-[280px] md:min-h-0">
               <div className="h-[65%] relative overflow-hidden">
                 <Image src="https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/Desktop-Showcase.png" alt="New Desktops" fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
               </div>
@@ -307,13 +307,13 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
             </Link>
 
             {/* Get Upto 70% off */}
-            <Link href="/shop" className="bg-[#5a80d8] rounded-[16px] md:rounded-[24px] overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col relative min-h-[280px] md:min-h-0">
+            <Link href="/shop" className="bg-[#1a3575] rounded-[16px] md:rounded-[24px] overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col relative min-h-[280px] md:min-h-0">
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500 pointer-events-none z-10"></div>
               <div className="h-[50%] relative overflow-hidden">
                 <Image src="https://picsum.photos/seed/promo/600/400" alt="Promo" fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
               </div>
               <div className="flex-1 p-8 flex flex-col justify-center items-start text-white relative z-20">
-                <span className="bg-[#ff5b4f] text-white px-4 md:px-5 py-1.5 md:py-2 rounded-full text-lg md:text-2xl font-bold mb-3 md:mb-4 tracking-tight shadow-sm inline-block transform transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-2">
+                <span className="bg-[#b81d06] text-white px-4 md:px-5 py-1.5 md:py-2 rounded-full text-lg md:text-2xl font-bold mb-3 md:mb-4 tracking-tight shadow-sm inline-block transform transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-2">
                   Get Upto 70% off
                 </span>
                 <h3 className="text-[20px] md:text-[26px] font-bold mb-4 md:mb-6 leading-snug tracking-tight">On All The Refurbished Products</h3>
@@ -484,7 +484,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
 
           {/* Left Content */}
           <div className="flex-1 text-white">
-            <div className="inline-block bg-[#ff4522] text-white text-[14px] font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm">
+            <div className="inline-block bg-[#b81d06] text-white text-[14px] font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm">
               Get Upto 70% Off on New & Refurbished Products
             </div>
 
@@ -512,7 +512,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
                 Shop Now!
               </Link>
               <Link href="/about" aria-label="Learn more about Comsri Corporation" className="bg-transparent border-2 border-white/60 hover:border-white hover:bg-white/10 text-white font-bold px-8 py-3 rounded-full transition-all focus:outline-none text-center">
-                Learn More
+                About Comsri Corporation
               </Link>
             </div>
           </div>
@@ -832,7 +832,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
           </div>
 
           {/* Newsletter Banner */}
-          <div className="bg-[#3452ef] rounded-[16px] md:rounded-[24px] px-5 md:px-8 lg:px-12 py-8 md:py-10 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 mt-2 w-full">
+          <div className="bg-[#121e42] rounded-[16px] md:rounded-[24px] px-5 md:px-8 lg:px-12 py-8 md:py-10 flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 mt-2 w-full">
             <div className="flex flex-col text-white flex-1 text-center lg:text-left">
               <h2 className="text-[22px] sm:text-[28px] md:text-[32px] font-bold mb-1.5 tracking-tight">Sign Up to our Newsletter</h2>
               <p className="text-[14px] text-white/90 font-medium">Be the First to Know. Sign up to our newsletter today</p>
@@ -841,7 +841,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
               <input
                 type="email"
                 placeholder="Your email address"
-                className="px-5 md:px-6 py-3 md:py-3.5 rounded-full text-[14px] focus:outline-none font-medium h-[44px] md:h-[48px] text-black w-full min-w-0 md:min-w-[280px] md:w-[340px]"
+                className="px-5 md:px-6 py-3 md:py-3.5 rounded-full text-[14px] focus:outline-none font-medium h-[44px] md:h-[48px] text-black bg-white w-full min-w-0 md:min-w-[280px] md:w-[340px]"
               />
               <button className="bg-[#fcb643] hover:bg-[#fca61f] text-[#111] px-6 md:px-8 h-[44px] md:h-[48px] rounded-full font-bold text-[14px] md:text-[15px] transition-colors whitespace-nowrap shadow-sm w-full sm:w-auto">
                 Sign Up
