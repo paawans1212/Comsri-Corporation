@@ -264,6 +264,7 @@ export default function ChatBot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle chat"
         className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:shadow-indigo-500/20 transition-all relative overflow-hidden"
       >
         <AnimatePresence mode="wait">

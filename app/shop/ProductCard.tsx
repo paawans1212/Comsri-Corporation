@@ -100,6 +100,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               e.preventDefault();
               setIsFavorite(!isFavorite);
             }}
+            aria-label="Add to favorites"
             className={`w-[36px] h-[36px] rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none z-20 ${isFavorite
               ? "bg-rose-500 text-white"
               : "bg-white text-gray-700 hover:text-black hover:bg-white"
@@ -117,34 +118,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               alt={product.name}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-              className="object-contain p-2"
+              className="object-cover"
               priority={index < 4}
             />
           </div>
         </Link>
-
-        {/* Dynamic Interactive Dot Indicators */}
-        <div className="absolute bottom-4 flex gap-2 z-20">
-          {[0, 1, 2, 3, 4].map((dotIndex) => (
-            <button
-              key={dotIndex}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setActiveDot(dotIndex);
-              }}
-              className="w-4 h-4 flex items-center justify-center focus:outline-none"
-              aria-label={`Go to image slide ${dotIndex + 1}`}
-            >
-              <span
-                className={`h-1.5 rounded-full transition-all duration-300 ${activeDot === dotIndex
-                  ? "w-3.5 bg-black"
-                  : "w-1.5 bg-gray-400 hover:bg-gray-500"
-                  }`}
-              />
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Content Area */}

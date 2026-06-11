@@ -208,14 +208,16 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
                 href={cat.link}
                 className="relative rounded-[16px] md:rounded-[20px] overflow-hidden cursor-pointer group pt-6 px-5 h-[380px] sm:h-[260px] md:h-[300px] lg:h-[340px] flex flex-col items-start bg-[#fac656] shadow-sm transform transition-all duration-300 hover:shadow-md hover:-translate-y-1"
               >
-                <div
-                  className="absolute inset-0 opacity-100 z-0 bg-no-repeat pointer-events-none transform transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('${cat.bgImage}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
+                <div className="absolute inset-0 opacity-100 z-0 pointer-events-none transform transition-transform duration-300 group-hover:scale-105">
+                  <Image
+                    src={cat.bgImage}
+                    alt={cat.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    priority={idx === 0}
+                    className="object-cover"
+                  />
+                </div>
 
                 <h3 className="relative z-10 text-[18px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-bold text-[#1f2937] text-left tracking-tight px-1">
                   {cat.title}
@@ -571,7 +573,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
                     <h3 className="text-[18px] font-bold text-[#111] leading-snug line-clamp-2">
                       Bulk Refurbished Computers Dealers: Smart IT Solutions for Businesses
                     </h3>
-                    <button className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
+                    <button aria-label="Read article" className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
                       <ArrowUpRight size={20} />
                     </button>
                   </div>
@@ -620,7 +622,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
                     <h3 className="text-[18px] font-bold text-[#111] leading-snug line-clamp-2">
                       Bulk Refurbished Laptops for Offices: Cost vs Performance
                     </h3>
-                    <button className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
+                    <button aria-label="Read article" className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
                       <ArrowUpRight size={20} />
                     </button>
                   </div>
@@ -669,7 +671,7 @@ export default function HomeClient({ initialLaptops = [], initialDesktops = [] }
                     <h3 className="text-[18px] font-bold text-[#111] leading-snug line-clamp-2">
                       E-Waste Recycling Explained: The First Step to Affordable Refurbished Technology
                     </h3>
-                    <button className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
+                    <button aria-label="Read article" className="text-gray-400 group-hover:text-black transition-colors focus:outline-none flex-shrink-0 mt-1">
                       <ArrowUpRight size={20} />
                     </button>
                   </div>
