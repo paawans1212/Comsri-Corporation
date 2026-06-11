@@ -99,13 +99,14 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className="bg-[#f6f5f8]">
       <head suppressHydrationWarning>
-        <link rel="preconnect" href="https://hglntgfpbilqvdcazjsv.supabase.co" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://hglntgfpbilqvdcazjsv.supabase.co" />
+        <link rel="preconnect" href="https://comsri.com" />
         <script dangerouslySetInnerHTML={{ __html: fetchSetterPolyfill }} suppressHydrationWarning />
         <JsonLd schema={orgSchema} />
         <JsonLd schema={localBusinessSchema} />
         <JsonLd schema={searchActionSchema} />
       </head>
-      <body className={`${fredoka.variable} ${albertSans.variable} font-sans antialiased bg-[#f6f5f8]`} suppressHydrationWarning>
+      <body className={`${fredoka.className} ${albertSans.variable} antialiased bg-[#f6f5f8]`} suppressHydrationWarning>
         <CartProvider>
           {children}
           <ChatBotWrapper />
