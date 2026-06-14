@@ -30,7 +30,10 @@ export async function GET() {
         cleanDescription = cleanDescription.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         const link = getAbsoluteUrl(`/products/${prod.slug}`);
-        const imageLink = prod.images?.[0]?.src || `${SITE_CONFIG.url}/images/og-default.jpg`;
+        let imageLink = prod.images?.[0]?.src || `${SITE_CONFIG.url}/images/og-default.jpg`;
+        if (imageLink.includes("comsri.com/wp-content/")) {
+          imageLink = imageLink.replace("comsri.com/wp-content/", "cms.comsri.com/wp-content/");
+        }
 
         const price = `${prod.regular_price || prod.price} INR`;
         const salePriceXml = prod.on_sale && prod.sale_price ? `\n      <g:sale_price>${prod.sale_price} INR</g:sale_price>` : "";
