@@ -19,7 +19,7 @@ export default async function Home() {
     const [laptopsData, desktopsData, postsRes] = await Promise.all([
       getFilteredCatalog({ category: "112", per_page: 15 }),
       getFilteredCatalog({ category: "129", per_page: 15 }),
-      fetch("https://comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=6", {
+      fetch("https://cms.comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=6", {
         next: { revalidate: 3600 },
       })
     ]);

@@ -21,10 +21,10 @@ export default async function BlogPage() {
 
   try {
     const [postsRes, categoriesRes] = await Promise.all([
-      fetch("https://comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=20", {
+      fetch("https://cms.comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=20", {
         next: { revalidate: 3600 },
       }),
-      fetch("https://comsri.com/wp-json/wp/v2/categories", {
+      fetch("https://cms.comsri.com/wp-json/wp/v2/categories", {
         next: { revalidate: 3600 },
       }),
     ]);

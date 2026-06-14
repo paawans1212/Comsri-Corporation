@@ -79,7 +79,7 @@ export default function CartClient() {
     try {
       const token = "isr_7f2c9a1d4b8e5f3c6d0a9b2e7f4c1d8a5b6e3f9c2d7a1e4f"; // Manual token authorization
       const response = await fetch(`/api/revalidate?token=${token}&tag=woocommerce`); // trigger handshake
-      
+
       const subtotal = getCartTotal();
       let discount = 0;
 
@@ -333,7 +333,7 @@ export default function CartClient() {
                     type="text"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    placeholder="WELCOME10, COMSRI70, DEAL1500"
+                    placeholder="Enter Your Coupon Code"
                     className="flex-1 border border-gray-250 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 uppercase"
                     disabled={!!appliedCoupon}
                   />

@@ -26,7 +26,7 @@ interface BlogPostPageProps {
 async function getPost(slug: string): Promise<WPPost | null> {
   try {
     const res = await fetch(
-      `https://comsri.com/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=true`,
+      `https://cms.comsri.com/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=true`,
       { next: { revalidate: 3600 } }
     );
     if (!res.ok) return null;
@@ -40,7 +40,7 @@ async function getPost(slug: string): Promise<WPPost | null> {
 async function getRelated(excludeId: number): Promise<WPPost[]> {
   try {
     const res = await fetch(
-      `https://comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=4&exclude=${excludeId}`,
+      `https://cms.comsri.com/wp-json/wp/v2/posts?_embed=true&per_page=4&exclude=${excludeId}`,
       { next: { revalidate: 3600 } }
     );
     if (!res.ok) return [];

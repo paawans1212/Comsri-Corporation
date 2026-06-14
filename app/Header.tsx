@@ -492,7 +492,7 @@ export default function Header() {
             <div className="flex items-center gap-2 cursor-pointer border-r border-gray-350 pr-6 h-5">
               <img
                 loading="lazy"
-                src="https://comsri.com/wp-content/uploads/2025/10/indian-flag-1-1.jpg"
+                src="https://cms.comsri.com/wp-content/uploads/2025/10/indian-flag-1-1.jpg"
                 alt="IND"
                 className="w-5 h-[13px] object-cover rounded-[1px]"
               />
@@ -541,7 +541,7 @@ export default function Header() {
           {/* Center: Centered Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center justify-center">
             <Image
-              src="https://comsri.com/wp-content/uploads/2025/10/Comsri-Logo-2-1.png"
+              src="https://cms.comsri.com/wp-content/uploads/2025/10/Comsri-Logo-2-1.png"
               alt="Comsri Corporation Logo"
               width={116}
               height={34}
@@ -917,7 +917,7 @@ export default function Header() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
           <Link href="/" onClick={() => setMobileMenuOpen(false)}>
             <Image
-              src="https://comsri.com/wp-content/uploads/2025/10/Comsri-Logo-2-1.png"
+              src="https://cms.comsri.com/wp-content/uploads/2025/10/Comsri-Logo-2-1.png"
               alt="Comsri Corporation Logo"
               width={109}
               height={32}
@@ -1040,7 +1040,7 @@ export default function Header() {
               </button>
             </div>
             <div className="flex items-center gap-2">
-              <img loading="lazy" src="https://comsri.com/wp-content/uploads/2025/10/indian-flag-1-1.jpg" alt="IND" className="w-5 h-[13px] object-cover rounded-[1px]" />
+              <img loading="lazy" src="https://cms.comsri.com/wp-content/uploads/2025/10/indian-flag-1-1.jpg" alt="IND" className="w-5 h-[13px] object-cover rounded-[1px]" />
               <span className="text-[13px] font-medium text-gray-700">IND</span>
             </div>
           </div>

@@ -6,7 +6,7 @@ export async function GET() {
   let posts: any[] = [];
 
   try {
-    const res = await fetch("https://comsri.com/wp-json/wp/v2/posts?per_page=20", {
+    const res = await fetch("https://cms.comsri.com/wp-json/wp/v2/posts?per_page=20", {
       next: { revalidate: 3600 }
     });
     if (res.ok) {
