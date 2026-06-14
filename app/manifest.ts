@@ -12,9 +12,9 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#374bf9",
     icons: [
       {
-        src: "/icon.svg",
+        src: "https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/cropped-comsri_favicon_whitebg-modified-2-1.png",
         sizes: "any",
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
   };

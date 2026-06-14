@@ -59,6 +59,22 @@ export const metadata: Metadata = {
     description: SITE_CONFIG.description,
     creator: "@comsricorp",
   },
+  icons: {
+    icon: [
+      {
+        url: "https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/cropped-comsri_favicon_whitebg-modified-2-1.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: [
+      "https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/cropped-comsri_favicon_whitebg-modified-2-1.png",
+    ],
+    apple: [
+      {
+        url: "https://hglntgfpbilqvdcazjsv.supabase.co/storage/v1/object/public/product-images/cropped-comsri_favicon_whitebg-modified-2-1.png",
+      },
+    ],
+  },
 };
 
 import ChatBotWrapper from "./components/ChatBotWrapper";
