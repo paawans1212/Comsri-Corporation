@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_CONFIG.name} | Refurbished Laptops & Desktops`,
     description: SITE_CONFIG.description,
-    creator: "@comsri_corp",
+    creator: "@comsricorp",
   },
 };
 

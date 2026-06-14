@@ -148,7 +148,7 @@ export default function AboutClient() {
       "https://facebook.com/comsricorporation",
       "https://instagram.com/comsricorporation",
       "https://youtube.com/comsricorporation",
-      "https://x.com/comsri_corp"
+      "https://twitter.com/comsricorp"
     ]
   };
 

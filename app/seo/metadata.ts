@@ -94,7 +94,7 @@ export function constructMetadata({
       title: `${safeTitle} | ${SITE_CONFIG.shortName}`,
       description: formattedDescription,
       images: [safeOgImage.startsWith("http") ? safeOgImage : getAbsoluteUrl(safeOgImage)],
-      creator: "@comsri_corp",
+      creator: "@comsricorp",
     },
     category: category,
     authors: [{ name: SITE_CONFIG.name }],
