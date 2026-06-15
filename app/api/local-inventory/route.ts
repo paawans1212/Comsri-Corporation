@@ -36,29 +36,41 @@ export async function GET() {
     }
   }
 
+  // Escape characters that would break XML
+  const esc = (value: unknown) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
   try {
     products.forEach((prod) => {
       if (!prod.slug) return;
 
       const id = prod.id || prod.slug;
-      const price = `${prod.regular_price || prod.price} INR`;
       const availability = prod.stock_status === "instock" ? "in_stock" : "out_of_stock";
       const quantity = prod.stock_quantity !== null && prod.stock_quantity !== undefined ? prod.stock_quantity : 5; // Default fallback quantity to 5 if manage stock is off
 
+      // Only emit a price when we have a valid positive number; an empty
+      // price is invalid and triggers "missing inventory data" in Merchant Center.
+      const rawPrice = prod.regular_price || prod.price;
+      const hasPrice = rawPrice !== "" && rawPrice !== null && rawPrice !== undefined && !isNaN(parseFloat(rawPrice)) && parseFloat(rawPrice) > 0;
+      const priceXml = hasPrice ? `\n      <g:price>${esc(rawPrice)} INR</g:price>` : "";
+
       itemEntries += `
     <item>
-      <g:id>${id}</g:id>
-      <g:store_code>${storeCode}</g:store_code>
-      <g:availability>${availability}</g:availability>
-      <g:price>${price}</g:price>
-      <g:quantity>${quantity}</g:quantity>
+      <g:id>${esc(id)}</g:id>
+      <g:store_code>${esc(storeCode)}</g:store_code>
+      <g:availability>${availability}</g:availability>${priceXml}
+      <g:quantity>${esc(quantity)}</g:quantity>
     </item>`;
     });
   } catch (error) {
     console.error("Error generating Local Inventory Feed:", error);
   }
 
-  const xml = `xml = <?xml version="1.0" encoding="UTF-8"?>
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
   <channel>
     <title>${SITE_CONFIG.name} Local Inventory Feed</title>
@@ -67,9 +79,7 @@ export async function GET() {
   </channel>
 </rss>`;
 
-  const finalizedXml = xml.startsWith("xml = ") ? xml.substring(6) : xml;
-
-  return new NextResponse(finalizedXml, {
+  return new NextResponse(xml, {
     headers: {
       "Content-Type": "application/xml",
       "Cache-Control": "public, max-age=3600, s-maxage=3600",
