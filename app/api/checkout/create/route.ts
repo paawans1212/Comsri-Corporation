@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       for (const item of items) {
         const id = parseInt(item.productId || item.product_id, 10);
         const qty = parseInt(item.quantity, 10) || 1;
-        
+
         const product = await woocommerce.getProductById(id);
         if (!firstProductName) {
           firstProductName = product.name;
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
       }
       const id = parseInt(productId, 10);
       const qty = parseInt(quantity, 10) || 1;
-      
+
       const product = await woocommerce.getProductById(id);
       firstProductName = product.name;
       if (product.stock_status !== "instock") {
@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
         // Fallback for custom percentage calculations
         discountAmount = totalLinePrice * (amount / 100);
       }
-      
+
       totalLinePrice = Math.max(0, totalLinePrice - discountAmount);
       descriptionNote += ` [Discount Coupon: ${couponCode.toUpperCase()}]`;
     }
