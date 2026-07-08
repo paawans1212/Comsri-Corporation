@@ -126,7 +126,14 @@ class WooCommerceServiceClient {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch WooCommerce products: ${response.statusText}`);
+      const body = await response.text();
+
+      throw new Error(`
+Status: ${response.status}
+StatusText: ${response.statusText}
+Response:
+${body}
+`);
     }
 
     const data: WooCommerceProduct[] = await response.json();
@@ -269,7 +276,14 @@ class WooCommerceServiceClient {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch categories: ${response.statusText}`);
+      const body = await response.text();
+
+      throw new Error(`
+Status: ${response.status}
+StatusText: ${response.statusText}
+Response:
+${body}
+`);
     }
 
     return response.json();
