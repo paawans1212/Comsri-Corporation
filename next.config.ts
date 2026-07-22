@@ -11,9 +11,13 @@ const nextConfig: any = {
   turbopack: {},
   // Allow access to remote image placeholder.
   images: {
-    // Image Optimization is handled by Vercel at the edge (AVIF/WebP + responsive
-    // srcset). It was previously disabled for the Cloudflare/OpenNext build; on
-    // Vercel this must stay ON — it is the single biggest LCP win on mobile.
+    // TEMPORARILY disabled. Vercel's image optimizer fetches product media from
+    // cms.comsri.com server-side (US datacenter IP); the Cloudflare
+    // "Challenge Non-India" WAF rule challenges those fetches -> 502 / flaky
+    // product images for real visitors (cached images look fine locally).
+    // Re-enable (remove `unoptimized`, keep `formats`) once the cms WAF skip
+    // rule also covers `/wp-content/` so the optimizer can reach the media.
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
