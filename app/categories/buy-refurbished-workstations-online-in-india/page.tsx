@@ -269,52 +269,6 @@ export default async function RefurbishedWorkstationsPage({ searchParams }: Cate
     })),
   };
 
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": `${SITE_CONFIG.url}/#organization`,
-    "name": SITE_CONFIG.name,
-    "image": `${SITE_CONFIG.url}/images/logo.png`,
-    "telephone": SITE_CONFIG.telephone,
-    "email": SITE_CONFIG.email,
-    "url": SITE_CONFIG.url,
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": SITE_CONFIG.address.streetAddress,
-      "addressLocality": SITE_CONFIG.address.addressLocality,
-      "addressRegion": SITE_CONFIG.address.addressRegion,
-      "postalCode": SITE_CONFIG.address.postalCode,
-      "addressCountry": SITE_CONFIG.address.addressCountry,
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "19.1196",
-      "longitude": "72.8665"
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        "opens": "10:00",
-        "closes": "19:00"
-      }
-    ],
-    "sameAs": [
-      SITE_CONFIG.social.facebook,
-      SITE_CONFIG.social.instagram,
-      SITE_CONFIG.social.youtube,
-      SITE_CONFIG.social.twitter
-    ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "584",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "priceRange": "₹₹"
-  };
-
   return (
     <div className="min-h-screen bg-[#F6F5F8] flex flex-col font-sans">
       {/* ─── ALL JSON-LD SCHEMAS ─────────────────────────────────────── */}
@@ -323,7 +277,6 @@ export default async function RefurbishedWorkstationsPage({ searchParams }: Cate
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offerCatalogSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
 
       <Header />
 
@@ -441,6 +394,7 @@ export default async function RefurbishedWorkstationsPage({ searchParams }: Cate
             initialTotalPages={productsResult.totalPages}
             initialCounts={productsResult.counts}
             categories={categories}
+            embedded
             initialParams={{
               category: CATEGORY_ID,
               search: currentQuery,

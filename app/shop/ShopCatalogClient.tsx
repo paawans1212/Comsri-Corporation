@@ -27,6 +27,13 @@ interface ShopCatalogClientProps {
     on_sale: boolean;
     orderby: string;
   };
+  /**
+   * When rendered inside a category landing page (which supplies its own
+   * BreadcrumbList and business schema), suppress this component's duplicate
+   * BreadcrumbList and Store entity to avoid a conflicting structured-data
+   * graph. Defaults to false (standalone /shop usage keeps them).
+   */
+  embedded?: boolean;
 }
 
 const SkeletonCard = () => (
@@ -52,7 +59,8 @@ export default function ShopCatalogClient({
   initialTotalPages,
   initialCounts,
   categories,
-  initialParams
+  initialParams,
+  embedded = false
 }: ShopCatalogClientProps) {
   // Client States
   const [products, setProducts] = useState(initialProducts);
@@ -234,14 +242,18 @@ export default function ShopCatalogClient({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeSchema) }}
-      />
+      {!embedded && (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(storeSchema) }}
+          />
+        </>
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}

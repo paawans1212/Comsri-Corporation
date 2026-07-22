@@ -392,6 +392,7 @@ export default async function RefurbishedLaptopsPage({ searchParams }: CategoryP
             initialTotalPages={productsResult.totalPages}
             initialCounts={productsResult.counts}
             categories={categories}
+            embedded
             initialParams={{
               category: CATEGORY_ID,
               search: currentQuery,
